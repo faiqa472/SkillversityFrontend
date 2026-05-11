@@ -108,15 +108,16 @@ export default function TalentSearchPage() {
           </CardContent>
         </Card>
       </div>
-
       <div className="space-y-4">
         {candidates.map(candidate => {
           const userProjects = mockProjects.filter(
             p => p.userId === candidate.id && p.status === "verified",
           );
           const displayName =
-            candidate.name ?? `${candidate.first_name} ${candidate.last_name}`;
-
+            candidate.name ??
+            (candidate.first_name || candidate.last_name
+              ? `${candidate.first_name ?? ""} ${candidate.last_name ?? ""}`.trim()
+              : "Unknown");
           return (
             <Card
               key={candidate.id}
