@@ -6,12 +6,12 @@ import { determineUserRole } from "@/lib/role-config";
 /**
  * Extended User interface with additional profile fields
  */
-interface ExtendedUser extends Omit<User, 'role'> {
+interface ExtendedUser extends Omit<User, "role"> {
   role: UserRole;
-  first_name?: string;
-  last_name?: string;
+  first_name: string;
+  last_name: string;
   selected_role?: string;
-  user_type?: string;
+  user_type?: UserRole;
   is_tutor?: boolean;
   tutor_approved?: boolean;
   tutor_pending?: boolean;
@@ -55,14 +55,14 @@ export const useUserStore = create<UserStore>()(
     (set, get) => ({
       user: null,
       authStatus: "unauthenticated",
-      
-      setUser: (user) => {
+
+      setUser: user => {
         if (user) {
           // Use centralized role determination
           const effectiveRole = determineUserRole(user);
           const normalizedUser = { ...user, role: effectiveRole };
           set({ user: normalizedUser, authStatus: "authenticated" });
-          
+
           // Sync to localStorage for consistency
           if (typeof window !== "undefined") {
             const existingData = localStorage.getItem("user_data");
@@ -80,15 +80,15 @@ export const useUserStore = create<UserStore>()(
           set({ user: null, authStatus: "unauthenticated" });
         }
       },
-      
-      setAuthStatus: (authStatus) => set({ authStatus }),
-      
+
+      setAuthStatus: authStatus => set({ authStatus }),
+
       updateUserRole: (role: UserRole) => {
         const currentUser = get().user;
         if (currentUser) {
           const updatedUser = { ...currentUser, role };
           set({ user: updatedUser });
-          
+
           // Also update localStorage
           if (typeof window !== "undefined") {
             const userData = localStorage.getItem("user_data");
@@ -104,7 +104,7 @@ export const useUserStore = create<UserStore>()(
           }
         }
       },
-      
+
       syncFromLocalStorage: () => {
         if (typeof window !== "undefined") {
           const userData = localStorage.getItem("user_data");
@@ -120,7 +120,7 @@ export const useUserStore = create<UserStore>()(
           }
         }
       },
-      
+
       logout: () => {
         clearAuthData();
         set({ user: null, authStatus: "unauthenticated" });
@@ -128,6 +128,6 @@ export const useUserStore = create<UserStore>()(
     }),
     {
       name: "skillversity-user-storage",
-    }
-  )
+    },
+  ),
 );

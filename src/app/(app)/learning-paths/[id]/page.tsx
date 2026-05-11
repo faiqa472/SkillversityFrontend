@@ -5,19 +5,11 @@ import { useRouter } from "next/navigation";
 import { useOutline, useModules } from "@/hooks/useOutlines";
 import { useRole } from "@/hooks/useRole";
 import { outlinesApi, modulesApi } from "@/lib/outlines-api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { VersionHistory } from "@/components/features/outlines";
 import {
   ArrowLeft,
   BookOpen,
@@ -34,14 +26,11 @@ import {
   Loader2,
   GitBranch,
   GitCommit,
-  GitMerge,
   GitPullRequest,
   Copy,
   Download,
   Share2,
-  MoreHorizontal,
   ChevronRight,
-  Circle,
   Sparkles,
 } from "lucide-react";
 
@@ -50,19 +39,47 @@ interface OutlineDetailPageProps {
 }
 
 const difficultyColors: Record<string, string> = {
-  beginner: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-  intermediate: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
-  advanced: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
+  beginner:
+    "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+  intermediate:
+    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+  advanced:
+    "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
   expert: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
 };
 
 // Simplified version control timeline
 const versionTimeline = [
-  { version: "2.1.0", date: "Dec 10, 2024", changes: "Added new module on testing", author: "Ahmed K." },
-  { version: "2.0.0", date: "Dec 5, 2024", changes: "Major restructure, added projects", author: "Ahmed K." },
-  { version: "1.2.0", date: "Nov 28, 2024", changes: "Updated resources and links", author: "Sarah A." },
-  { version: "1.1.0", date: "Nov 20, 2024", changes: "Fixed typos, improved examples", author: "Ahmed K." },
-  { version: "1.0.0", date: "Nov 15, 2024", changes: "Initial release", author: "Ahmed K." },
+  {
+    version: "2.1.0",
+    date: "Dec 10, 2024",
+    changes: "Added new module on testing",
+    author: "Ahmed K.",
+  },
+  {
+    version: "2.0.0",
+    date: "Dec 5, 2024",
+    changes: "Major restructure, added projects",
+    author: "Ahmed K.",
+  },
+  {
+    version: "1.2.0",
+    date: "Nov 28, 2024",
+    changes: "Updated resources and links",
+    author: "Sarah A.",
+  },
+  {
+    version: "1.1.0",
+    date: "Nov 20, 2024",
+    changes: "Fixed typos, improved examples",
+    author: "Ahmed K.",
+  },
+  {
+    version: "1.0.0",
+    date: "Nov 15, 2024",
+    changes: "Initial release",
+    author: "Ahmed K.",
+  },
 ];
 
 export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
@@ -114,7 +131,10 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
           <p className="text-muted-foreground">
             {error || "The outline you're looking for doesn't exist."}
           </p>
-          <Button className="mt-4" onClick={() => router.push("/learning-paths")}>
+          <Button
+            className="mt-4"
+            onClick={() => router.push("/learning-paths")}
+          >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Outlines
           </Button>
@@ -130,7 +150,11 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
     <div className="space-y-4">
       {/* Repository-style Header */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Button variant="ghost" size="sm" onClick={() => router.push("/learning-paths")}>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => router.push("/learning-paths")}
+        >
           <ArrowLeft className="h-4 w-4 mr-1" />
           Outlines
         </Button>
@@ -150,7 +174,9 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
                 <div>
                   <h1 className="text-2xl font-bold">{outline.title}</h1>
                   <p className="text-sm text-muted-foreground">
-                    by {outline.primary_author?.name || outline.primary_author?.email}
+                    by{" "}
+                    {outline.primary_author?.name ||
+                      outline.primary_author?.email}
                   </p>
                 </div>
               </div>
@@ -159,8 +185,7 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
                   {outline.difficulty_level}
                 </Badge>
                 <Badge variant="outline" className="gap-1">
-                  <GitBranch className="h-3 w-3" />
-                  v{outline.current_version}
+                  <GitBranch className="h-3 w-3" />v{outline.current_version}
                 </Badge>
                 {outline.is_published ? (
                   <Badge variant="default">Published</Badge>
@@ -222,7 +247,9 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
           </div>
           <div className="flex items-center gap-1.5">
             <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-            <span className="font-medium">{parseFloat(String(outline.rating || 0)).toFixed(1)}</span>
+            <span className="font-medium">
+              {parseFloat(String(outline.rating || 0)).toFixed(1)}
+            </span>
           </div>
         </div>
       </Card>
@@ -251,20 +278,22 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
             <div className="bg-muted/50 border-b px-4 py-2 flex items-center gap-4">
               <button
                 onClick={() => setActiveTab("readme")}
-                className={`text-sm px-3 py-1.5 rounded-md transition-colors ${activeTab === "readme"
+                className={`text-sm px-3 py-1.5 rounded-md transition-colors ${
+                  activeTab === "readme"
                     ? "bg-background shadow-sm font-medium"
                     : "text-muted-foreground hover:text-foreground"
-                  }`}
+                }`}
               >
                 <FileText className="h-4 w-4 inline mr-1.5" />
                 Overview
               </button>
               <button
                 onClick={() => setActiveTab("modules")}
-                className={`text-sm px-3 py-1.5 rounded-md transition-colors ${activeTab === "modules"
+                className={`text-sm px-3 py-1.5 rounded-md transition-colors ${
+                  activeTab === "modules"
                     ? "bg-background shadow-sm font-medium"
                     : "text-muted-foreground hover:text-foreground"
-                  }`}
+                }`}
               >
                 <BookOpen className="h-4 w-4 inline mr-1.5" />
                 Modules
@@ -274,10 +303,11 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
               </button>
               <button
                 onClick={() => setActiveTab("history")}
-                className={`text-sm px-3 py-1.5 rounded-md transition-colors ${activeTab === "history"
+                className={`text-sm px-3 py-1.5 rounded-md transition-colors ${
+                  activeTab === "history"
                     ? "bg-background shadow-sm font-medium"
                     : "text-muted-foreground hover:text-foreground"
-                  }`}
+                }`}
               >
                 <History className="h-4 w-4 inline mr-1.5" />
                 History
@@ -306,8 +336,12 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
                     <div>
                       <h3 className="font-medium mb-3">Skills You'll Learn</h3>
                       <div className="flex flex-wrap gap-2">
-                        {outline.skill_tags.map((tag) => (
-                          <Badge key={tag} variant="secondary" className="px-3 py-1">
+                        {outline.skill_tags.map(tag => (
+                          <Badge
+                            key={tag}
+                            variant="secondary"
+                            className="px-3 py-1"
+                          >
                             {tag}
                           </Badge>
                         ))}
@@ -320,15 +354,23 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
                     <h3 className="font-medium mb-2">Quick Start</h3>
                     <ol className="text-sm text-muted-foreground space-y-2">
                       <li className="flex items-start gap-2">
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">1</span>
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">
+                          1
+                        </span>
                         <span>Review the outline structure and modules</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">2</span>
-                        <span>Start with Module 1 and progress sequentially</span>
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">
+                          2
+                        </span>
+                        <span>
+                          Start with Module 1 and progress sequentially
+                        </span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">3</span>
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">
+                          3
+                        </span>
                         <span>Complete exercises and mark modules as done</span>
                       </li>
                     </ol>
@@ -356,18 +398,24 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
                       return (
                         <div
                           key={module.id}
-                          className={`flex items-start gap-4 p-4 rounded-lg border transition-colors ${isCompleted
+                          className={`flex items-start gap-4 p-4 rounded-lg border transition-colors ${
+                            isCompleted
                               ? "bg-green-50/50 dark:bg-green-900/10 border-green-200 dark:border-green-800"
                               : "hover:bg-muted/50"
-                            }`}
+                          }`}
                         >
                           <div
-                            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold flex-shrink-0 ${isCompleted
+                            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold flex-shrink-0 ${
+                              isCompleted
                                 ? "bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-400"
                                 : "bg-muted text-muted-foreground"
-                              }`}
+                            }`}
                           >
-                            {isCompleted ? <CheckCircle className="h-4 w-4" /> : index + 1}
+                            {isCompleted ? (
+                              <CheckCircle className="h-4 w-4" />
+                            ) : (
+                              index + 1
+                            )}
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-4">
@@ -376,15 +424,22 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
                                 <p className="text-sm text-muted-foreground mt-1">
                                   {module.description}
                                 </p>
-                                {module.learning_objectives && module.learning_objectives.length > 0 && (
-                                  <div className="mt-2 flex flex-wrap gap-1">
-                                    {module.learning_objectives.slice(0, 3).map((obj, i) => (
-                                      <Badge key={i} variant="outline" className="text-xs">
-                                        {obj}
-                                      </Badge>
-                                    ))}
-                                  </div>
-                                )}
+                                {module.learning_objectives &&
+                                  module.learning_objectives.length > 0 && (
+                                    <div className="mt-2 flex flex-wrap gap-1">
+                                      {module.learning_objectives
+                                        .slice(0, 3)
+                                        .map((obj, i) => (
+                                          <Badge
+                                            key={i}
+                                            variant="outline"
+                                            className="text-xs"
+                                          >
+                                            {obj}
+                                          </Badge>
+                                        ))}
+                                    </div>
+                                  )}
                               </div>
                               <div className="flex items-center gap-2 flex-shrink-0">
                                 <span className="text-xs text-muted-foreground">
@@ -394,7 +449,9 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
                                   <Button
                                     size="sm"
                                     variant="outline"
-                                    onClick={() => handleCompleteModule(module.id)}
+                                    onClick={() =>
+                                      handleCompleteModule(module.id)
+                                    }
                                   >
                                     Complete
                                   </Button>
@@ -424,22 +481,33 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
                     <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
                     <div className="space-y-4">
                       {versionTimeline.map((item, index) => (
-                        <div key={item.version} className="relative flex gap-4 pl-10">
+                        <div
+                          key={item.version}
+                          className="relative flex gap-4 pl-10"
+                        >
                           <div
-                            className={`absolute left-2.5 w-3 h-3 rounded-full border-2 ${index === 0
+                            className={`absolute left-2.5 w-3 h-3 rounded-full border-2 ${
+                              index === 0
                                 ? "bg-primary border-primary"
                                 : "bg-background border-muted-foreground"
-                              }`}
+                            }`}
                           />
                           <div className="flex-1 pb-4">
                             <div className="flex items-center gap-2">
-                              <Badge variant={index === 0 ? "default" : "outline"} className="font-mono">
+                              <Badge
+                                variant={index === 0 ? "default" : "outline"}
+                                className="font-mono"
+                              >
                                 v{item.version}
                               </Badge>
-                              <span className="text-xs text-muted-foreground">{item.date}</span>
+                              <span className="text-xs text-muted-foreground">
+                                {item.date}
+                              </span>
                             </div>
                             <p className="text-sm mt-1">{item.changes}</p>
-                            <p className="text-xs text-muted-foreground mt-1">by {item.author}</p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              by {item.author}
+                            </p>
                           </div>
                         </div>
                       ))}
@@ -478,7 +546,9 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
               </div>
               <div className="flex items-center gap-2">
                 <Star className="h-4 w-4 text-yellow-500" />
-                <span>{parseFloat(String(outline.rating || 0)).toFixed(1)} rating</span>
+                <span>
+                  {parseFloat(String(outline.rating || 0)).toFixed(1)} rating
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -490,15 +560,23 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
                 <CardTitle className="text-sm">Contributors</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {outline.collaborators.map((collab) => (
-                  <div key={collab.id} className="flex items-center justify-between text-sm">
+                {outline.collaborators.map(collab => (
+                  <div
+                    key={collab.id}
+                    className="flex items-center justify-between text-sm"
+                  >
                     <div className="flex items-center gap-2">
                       <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-medium">
-                        {(collab.user.name || collab.user.email)[0].toUpperCase()}
+                        {(collab.user.name ||
+                          collab.user.email)[0].toUpperCase()}
                       </div>
-                      <span className="truncate">{collab.user.name || collab.user.email}</span>
+                      <span className="truncate">
+                        {collab.user.name || collab.user.email}
+                      </span>
                     </div>
-                    <Badge variant="outline" className="text-xs">{collab.role}</Badge>
+                    <Badge variant="outline" className="text-xs">
+                      {collab.role}
+                    </Badge>
                   </div>
                 ))}
               </CardContent>
@@ -508,15 +586,27 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
           {/* Actions */}
           <Card>
             <CardContent className="p-4 space-y-2">
-              <Button variant="outline" size="sm" className="w-full justify-start">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full justify-start"
+              >
                 <Copy className="h-4 w-4 mr-2" />
                 Fork Outline
               </Button>
-              <Button variant="outline" size="sm" className="w-full justify-start">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full justify-start"
+              >
                 <GitPullRequest className="h-4 w-4 mr-2" />
                 Suggest Changes
               </Button>
-              <Button variant="outline" size="sm" className="w-full justify-start">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full justify-start"
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Export PDF
               </Button>
@@ -529,16 +619,18 @@ export default function OutlineDetailPage({ params }: OutlineDetailPageProps) {
               <CardTitle className="text-sm">Related Outlines</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              {["Advanced Topics", "Practical Projects", "Interview Prep"].map((title, i) => (
-                <button
-                  key={i}
-                  onClick={() => router.push("/coming-soon")}
-                  className="w-full text-left p-2 rounded-md hover:bg-muted transition-colors text-sm"
-                >
-                  <span className="font-medium">{title}</span>
-                  <p className="text-xs text-muted-foreground">Coming soon</p>
-                </button>
-              ))}
+              {["Advanced Topics", "Practical Projects", "Interview Prep"].map(
+                (title, i) => (
+                  <button
+                    key={i}
+                    onClick={() => router.push("/coming-soon")}
+                    className="w-full text-left p-2 rounded-md hover:bg-muted transition-colors text-sm"
+                  >
+                    <span className="font-medium">{title}</span>
+                    <p className="text-xs text-muted-foreground">Coming soon</p>
+                  </button>
+                ),
+              )}
             </CardContent>
           </Card>
         </div>

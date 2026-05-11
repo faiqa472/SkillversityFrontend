@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -12,8 +12,17 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Search, Code, Layers, Database, Wrench, Cloud, BookOpen } from "lucide-react";
-import { useCategories, useTechnologies } from "@/hooks/useTracks";
+import {
+  Loader2,
+  Search,
+  Code,
+  Layers,
+  Database,
+  Wrench,
+  Cloud,
+  BookOpen,
+} from "lucide-react";
+import { useTechnologies } from "@/hooks/useTracks";
 import { cn } from "@/lib/utils";
 
 interface TechnologySelectProps {
@@ -39,20 +48,20 @@ export function TechnologySelect({
   className,
 }: TechnologySelectProps) {
   const [search, setSearch] = useState("");
-  const { categories, loading: categoriesLoading } = useCategories();
-  const { technologies, loading: techLoading } = useTechnologies({ search });
-
-  const loading = categoriesLoading || techLoading;
+  const { technologies, loading } = useTechnologies({ search });
 
   // Group technologies by category
-  const groupedTechnologies = technologies.reduce((acc, tech) => {
-    const categoryName = tech.category?.name || "Other";
-    if (!acc[categoryName]) {
-      acc[categoryName] = [];
-    }
-    acc[categoryName].push(tech);
-    return acc;
-  }, {} as Record<string, typeof technologies>);
+  const groupedTechnologies = technologies.reduce(
+    (acc, tech) => {
+      const categoryName = tech.category?.name || "Other";
+      if (!acc[categoryName]) {
+        acc[categoryName] = [];
+      }
+      acc[categoryName].push(tech);
+      return acc;
+    },
+    {} as Record<string, typeof technologies>,
+  );
 
   return (
     <Select value={value} onValueChange={onValueChange}>
@@ -67,7 +76,7 @@ export function TechnologySelect({
             <Input
               placeholder="Search technologies..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={e => setSearch(e.target.value)}
               className="pl-8 h-8"
             />
           </div>
@@ -83,18 +92,22 @@ export function TechnologySelect({
             <SelectItem value="all">All Technologies</SelectItem>
 
             {/* Trending */}
-            {technologies.some((t) => t.is_trending) && (
+            {technologies.some(t => t.is_trending) && (
               <SelectGroup>
                 <SelectLabel className="flex items-center gap-1.5">
-                  <Badge variant="secondary" className="text-xs">Trending</Badge>
+                  <Badge variant="secondary" className="text-xs">
+                    Trending
+                  </Badge>
                 </SelectLabel>
                 {technologies
-                  .filter((t) => t.is_trending)
+                  .filter(t => t.is_trending)
                   .slice(0, 5)
-                  .map((tech) => (
+                  .map(tech => (
                     <SelectItem key={tech.id} value={tech.slug}>
                       <div className="flex items-center gap-2">
-                        {techTypeIcons[tech.tech_type] || <Code className="h-3.5 w-3.5" />}
+                        {techTypeIcons[tech.tech_type] || (
+                          <Code className="h-3.5 w-3.5" />
+                        )}
                         <span>{tech.name}</span>
                         <Badge variant="outline" className="text-xs ml-auto">
                           {tech.tracks_count}
@@ -109,10 +122,12 @@ export function TechnologySelect({
             {Object.entries(groupedTechnologies).map(([category, techs]) => (
               <SelectGroup key={category}>
                 <SelectLabel>{category}</SelectLabel>
-                {techs.slice(0, 10).map((tech) => (
+                {techs.slice(0, 10).map(tech => (
                   <SelectItem key={tech.id} value={tech.slug}>
                     <div className="flex items-center gap-2">
-                      {techTypeIcons[tech.tech_type] || <Code className="h-3.5 w-3.5" />}
+                      {techTypeIcons[tech.tech_type] || (
+                        <Code className="h-3.5 w-3.5" />
+                      )}
                       <span>{tech.name}</span>
                       {tech.tracks_count > 0 && (
                         <Badge variant="outline" className="text-xs ml-auto">

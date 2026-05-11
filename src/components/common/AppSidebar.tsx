@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { useRole } from "@/hooks/useRole";
 import {
   LayoutDashboard,
-  BookOpen,
   Users,
   FileText,
   User,
@@ -34,7 +33,7 @@ export function AppSidebar() {
     isSponsor,
     hasSelectedRole,
     isTutorPending,
-    isProfileComplete
+    isProfileComplete,
   } = useRole();
 
   const generalLinks = [
@@ -100,7 +99,8 @@ export function AppSidebar() {
   }
 
   // Role upgrade options - only show for members who have completed onboarding
-  const showRoleUpgrade = isLearner && hasSelectedRole && !isTutor && !isTutorPending;
+  const showRoleUpgrade =
+    isLearner && hasSelectedRole && !isTutor && !isTutorPending;
 
   // Get the appropriate link for the SkillVersity logo/name
   // Points to onboarding until user selects a role, then to role-specific dashboard
@@ -125,9 +125,10 @@ export function AppSidebar() {
       </div>
 
       <nav className="flex-1 space-y-1 p-4">
-        {links.map((link) => {
+        {links.map(link => {
           const Icon = link.icon;
-          const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
+          const isActive =
+            pathname === link.href || pathname.startsWith(link.href + "/");
 
           return (
             <Link
@@ -137,7 +138,7 @@ export function AppSidebar() {
                 "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 isActive
                   ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               )}
             >
               <Icon className="h-5 w-5" />
@@ -158,7 +159,7 @@ export function AppSidebar() {
                 "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 pathname === "/tutor/apply"
                   ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               )}
             >
               <GraduationCap className="h-5 w-5" />
@@ -187,7 +188,7 @@ export function AppSidebar() {
             "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
             pathname === "/settings"
               ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
           )}
         >
           <Settings className="h-5 w-5" />

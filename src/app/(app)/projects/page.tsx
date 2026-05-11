@@ -1,15 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Code, 
-  Github, 
-  Globe, 
+import {
+  Code,
+  Github,
   Search,
   Plus,
   Star,
@@ -19,7 +24,7 @@ import {
   Filter,
   TrendingUp,
   Sparkles,
-  ExternalLink
+  ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -40,7 +45,8 @@ const featuredProjects = [
   {
     id: "1",
     name: "AI-Powered Resume Builder",
-    description: "A smart resume builder that uses AI to optimize your resume for ATS systems and job descriptions.",
+    description:
+      "A smart resume builder that uses AI to optimize your resume for ATS systems and job descriptions.",
     author: { name: "Ahmed Hassan", avatar: "AH", is_verified: true },
     technologies: ["React", "OpenAI", "Node.js", "PostgreSQL"],
     stars: 156,
@@ -51,7 +57,8 @@ const featuredProjects = [
   {
     id: "2",
     name: "E-commerce Platform",
-    description: "Full-stack e-commerce solution with payment integration, inventory management, and analytics dashboard.",
+    description:
+      "Full-stack e-commerce solution with payment integration, inventory management, and analytics dashboard.",
     author: { name: "Sara Khan", avatar: "SK", is_verified: false },
     technologies: ["Next.js", "Stripe", "Prisma", "TailwindCSS"],
     stars: 89,
@@ -62,7 +69,8 @@ const featuredProjects = [
   {
     id: "3",
     name: "Real-time Chat Application",
-    description: "Scalable chat application with real-time messaging, file sharing, and video calls.",
+    description:
+      "Scalable chat application with real-time messaging, file sharing, and video calls.",
     author: { name: "Ali Raza", avatar: "AR", is_verified: true },
     technologies: ["Socket.io", "React", "Express", "MongoDB"],
     stars: 234,
@@ -73,7 +81,8 @@ const featuredProjects = [
   {
     id: "4",
     name: "Task Management Dashboard",
-    description: "Kanban-style task management with team collaboration, deadlines, and progress tracking.",
+    description:
+      "Kanban-style task management with team collaboration, deadlines, and progress tracking.",
     author: { name: "Fatima Malik", avatar: "FM", is_verified: false },
     technologies: ["Vue.js", "Firebase", "Vuetify"],
     stars: 67,
@@ -112,11 +121,15 @@ export default function ProjectsPage() {
       <Card className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200 dark:border-amber-800">
         <CardContent className="py-4">
           <div className="flex flex-col sm:flex-row items-center gap-4">
-            <Badge variant="secondary" className="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200">
+            <Badge
+              variant="secondary"
+              className="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200"
+            >
               Coming Soon
             </Badge>
             <p className="text-sm text-muted-foreground flex-1 text-center sm:text-left">
-              Project showcase is under development. Browse the preview below and get notified when it launches!
+              Project showcase is under development. Browse the preview below
+              and get notified when it launches!
             </p>
             <Button size="sm" variant="outline">
               <Bell className="mr-2 h-4 w-4" />
@@ -134,7 +147,7 @@ export default function ProjectsPage() {
             placeholder="Search projects by name, technology, or author..."
             className="pl-12 h-11"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={e => setSearchQuery(e.target.value)}
           />
         </div>
         <Button variant="outline" className="gap-2">
@@ -144,24 +157,43 @@ export default function ProjectsPage() {
       </div>
 
       {/* Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-6"
+      >
         <TabsList className="bg-transparent border-b w-full justify-start rounded-none h-auto p-0 gap-6">
-          <TabsTrigger value="featured" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3">
-            <Sparkles className="h-4 w-4 mr-2" />Featured
+          <TabsTrigger
+            value="featured"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3"
+          >
+            <Sparkles className="h-4 w-4 mr-2" />
+            Featured
           </TabsTrigger>
-          <TabsTrigger value="trending" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3">
-            <TrendingUp className="h-4 w-4 mr-2" />Trending
+          <TabsTrigger
+            value="trending"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3"
+          >
+            <TrendingUp className="h-4 w-4 mr-2" />
+            Trending
           </TabsTrigger>
-          <TabsTrigger value="latest" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3">
-            <Clock className="h-4 w-4 mr-2" />Latest
+          <TabsTrigger
+            value="latest"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3"
+          >
+            <Clock className="h-4 w-4 mr-2" />
+            Latest
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="featured" className="space-y-6">
           {/* Project Grid */}
           <div className="grid gap-6 md:grid-cols-2">
-            {featuredProjects.map((project) => (
-              <Card key={project.id} className="group overflow-hidden hover:shadow-lg transition-all opacity-80">
+            {featuredProjects.map(project => (
+              <Card
+                key={project.id}
+                className="group overflow-hidden hover:shadow-lg transition-all opacity-80"
+              >
                 {/* Project Thumbnail */}
                 <div className="p-4 pb-0">
                   <SkeletonMedia />
@@ -177,9 +209,13 @@ export default function ProjectsPage() {
                         <div className="h-5 w-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-medium">
                           {project.author.avatar}
                         </div>
-                        <span className="text-sm text-muted-foreground">{project.author.name}</span>
+                        <span className="text-sm text-muted-foreground">
+                          {project.author.name}
+                        </span>
                         {project.author.is_verified && (
-                          <Badge variant="secondary" className="text-xs">Verified</Badge>
+                          <Badge variant="secondary" className="text-xs">
+                            Verified
+                          </Badge>
                         )}
                       </div>
                     </div>
@@ -193,7 +229,7 @@ export default function ProjectsPage() {
 
                   {/* Technologies */}
                   <div className="flex flex-wrap gap-1">
-                    {project.technologies.slice(0, 4).map((tech) => (
+                    {project.technologies.slice(0, 4).map(tech => (
                       <Badge key={tech} variant="outline" className="text-xs">
                         {tech}
                       </Badge>
@@ -235,7 +271,9 @@ export default function ProjectsPage() {
           <div className="text-center py-12">
             <TrendingUp className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">Trending Projects</h3>
-            <p className="text-muted-foreground">Coming soon - see what's popular in the community</p>
+            <p className="text-muted-foreground">
+              Coming soon - see what's popular in the community
+            </p>
           </div>
         </TabsContent>
 
@@ -243,7 +281,9 @@ export default function ProjectsPage() {
           <div className="text-center py-12">
             <Clock className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">Latest Projects</h3>
-            <p className="text-muted-foreground">Coming soon - discover newly added projects</p>
+            <p className="text-muted-foreground">
+              Coming soon - discover newly added projects
+            </p>
           </div>
         </TabsContent>
       </Tabs>
@@ -253,9 +293,12 @@ export default function ProjectsPage() {
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
-              <h3 className="text-lg font-semibold">Ready to showcase your work?</h3>
+              <h3 className="text-lg font-semibold">
+                Ready to showcase your work?
+              </h3>
               <p className="text-muted-foreground">
-                Add your projects to build your portfolio and get discovered by companies
+                Add your projects to build your portfolio and get discovered by
+                companies
               </p>
             </div>
             <Button asChild>

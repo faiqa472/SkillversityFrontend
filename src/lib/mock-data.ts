@@ -20,6 +20,8 @@ export const mockUsers: User[] = [
     id: "1",
     email: "learner@skillversity.com",
     name: "Ahmed Khan",
+    first_name: "Ahmed",
+    last_name: "Khan",
     role: "learner",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmed",
     bio: "Aspiring full-stack developer passionate about building impactful solutions.",
@@ -30,6 +32,8 @@ export const mockUsers: User[] = [
     id: "2",
     email: "tutor@skillversity.com",
     name: "Fatima Ali",
+    first_name: "Fatima",
+    last_name: "Ali",
     role: "tutor",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Fatima",
     bio: "Senior Software Engineer with 10+ years of experience in web development.",
@@ -40,6 +44,8 @@ export const mockUsers: User[] = [
     id: "3",
     email: "company@skillversity.com",
     name: "TechCorp HR",
+    first_name: "TechCorp",
+    last_name: "HR",
     role: "company",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=TechCorp",
     bio: "Leading software house in Pakistan, hiring top talent.",
@@ -50,6 +56,8 @@ export const mockUsers: User[] = [
     id: "4",
     email: "sponsor@skillversity.com",
     name: "Pakistan Tech Foundation",
+    first_name: "Pakistan",
+    last_name: "Tech Foundation",
     role: "sponsor",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Foundation",
     bio: "NGO supporting tech education for underprivileged youth.",
@@ -60,6 +68,8 @@ export const mockUsers: User[] = [
     id: "5",
     email: "general@skillversity.com",
     name: "Sara Ahmed",
+    first_name: "Sara",
+    last_name: "Ahmed",
     role: "general",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sara",
     bio: "Exploring career options in tech, seeking guidance.",
@@ -72,8 +82,10 @@ export const mockCourses: Course[] = [
   {
     id: "1",
     title: "Full-Stack Web Development with Next.js",
-    description: "Master modern web development with Next.js, React, and TypeScript.",
-    thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800",
+    description:
+      "Master modern web development with Next.js, React, and TypeScript.",
+    thumbnail:
+      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800",
     difficulty: "intermediate",
     tutorId: "2",
     modules: [],
@@ -86,8 +98,10 @@ export const mockCourses: Course[] = [
   {
     id: "2",
     title: "Python for Data Science",
-    description: "Learn Python programming and data analysis with pandas, numpy, and matplotlib.",
-    thumbnail: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=800",
+    description:
+      "Learn Python programming and data analysis with pandas, numpy, and matplotlib.",
+    thumbnail:
+      "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=800",
     difficulty: "beginner",
     tutorId: "2",
     modules: [],
@@ -100,8 +114,10 @@ export const mockCourses: Course[] = [
   {
     id: "3",
     title: "Advanced React Patterns",
-    description: "Deep dive into advanced React patterns, hooks, and performance optimization.",
-    thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800",
+    description:
+      "Deep dive into advanced React patterns, hooks, and performance optimization.",
+    thumbnail:
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800",
     difficulty: "advanced",
     tutorId: "2",
     modules: [],
@@ -132,7 +148,8 @@ export const mockProjects: VerifiedProject[] = [
     id: "1",
     userId: "1",
     title: "E-Commerce Platform",
-    description: "A full-featured e-commerce platform built with Next.js and Stripe.",
+    description:
+      "A full-featured e-commerce platform built with Next.js and Stripe.",
     technologies: ["Next.js", "TypeScript", "Stripe", "PostgreSQL"],
     repositoryUrl: "https://github.com/example/ecommerce",
     liveUrl: "https://example-ecommerce.vercel.app",
@@ -145,7 +162,8 @@ export const mockProjects: VerifiedProject[] = [
     id: "2",
     userId: "1",
     title: "Task Management System",
-    description: "A collaborative task management application with real-time updates.",
+    description:
+      "A collaborative task management application with real-time updates.",
     technologies: ["React", "Node.js", "Socket.io", "MongoDB"],
     repositoryUrl: "https://github.com/example/taskmanager",
     liveUrl: "https://example-tasks.vercel.app",
@@ -158,7 +176,8 @@ export const mockProjects: VerifiedProject[] = [
     id: "3",
     userId: "1",
     title: "Weather Dashboard",
-    description: "Real-time weather dashboard with data visualization and forecasting.",
+    description:
+      "Real-time weather dashboard with data visualization and forecasting.",
     technologies: ["Vue.js", "Python", "FastAPI", "Chart.js"],
     repositoryUrl: "https://github.com/example/weather",
     liveUrl: "https://example-weather.vercel.app",
@@ -173,7 +192,8 @@ export const mockArticles: Article[] = [
   {
     id: "1",
     title: "Understanding Server Components in Next.js",
-    content: "# Server Components\n\nServer Components are a revolutionary feature in Next.js that allows you to render components on the server. This approach provides better performance and SEO benefits.\n\n## Benefits\n\n- Reduced JavaScript bundle size\n- Better initial page load\n- Improved SEO\n- Direct database access",
+    content:
+      "# Server Components\n\nServer Components are a revolutionary feature in Next.js that allows you to render components on the server. This approach provides better performance and SEO benefits.\n\n## Benefits\n\n- Reduced JavaScript bundle size\n- Better initial page load\n- Improved SEO\n- Direct database access",
     authorId: "1",
     coAuthors: [],
     tags: ["Next.js", "React", "Server Components"],
@@ -184,7 +204,8 @@ export const mockArticles: Article[] = [
   {
     id: "2",
     title: "Building Scalable APIs with FastAPI",
-    content: "# FastAPI Guide\n\nFastAPI is a modern, fast web framework for building APIs with Python. It's built on top of Starlette and Pydantic.\n\n## Key Features\n\n- Automatic API documentation\n- Type hints support\n- High performance\n- Easy to learn",
+    content:
+      "# FastAPI Guide\n\nFastAPI is a modern, fast web framework for building APIs with Python. It's built on top of Starlette and Pydantic.\n\n## Key Features\n\n- Automatic API documentation\n- Type hints support\n- High performance\n- Easy to learn",
     authorId: "1",
     coAuthors: [],
     tags: ["Python", "FastAPI", "Backend"],
@@ -195,7 +216,8 @@ export const mockArticles: Article[] = [
   {
     id: "3",
     title: "TypeScript Best Practices for 2024",
-    content: "# TypeScript Best Practices\n\nTypeScript has become the standard for building large-scale JavaScript applications. Here are the best practices you should follow.\n\n## Type Safety\n\n- Use strict mode\n- Avoid 'any' type\n- Leverage union types\n- Use generics effectively",
+    content:
+      "# TypeScript Best Practices\n\nTypeScript has become the standard for building large-scale JavaScript applications. Here are the best practices you should follow.\n\n## Type Safety\n\n- Use strict mode\n- Avoid 'any' type\n- Leverage union types\n- Use generics effectively",
     authorId: "2",
     coAuthors: [],
     tags: ["TypeScript", "JavaScript", "Best Practices"],
@@ -210,7 +232,8 @@ export const mockJobs: JobPosting[] = [
     id: "1",
     companyId: "3",
     title: "Junior Full-Stack Developer",
-    description: "We are looking for a passionate junior developer to join our growing team. You'll work on exciting projects using modern technologies.",
+    description:
+      "We are looking for a passionate junior developer to join our growing team. You'll work on exciting projects using modern technologies.",
     requirements: ["Next.js", "TypeScript", "PostgreSQL"],
     location: "Karachi, Pakistan",
     type: "full-time",
@@ -226,7 +249,8 @@ export const mockJobs: JobPosting[] = [
     id: "2",
     companyId: "3",
     title: "Senior React Developer",
-    description: "Seeking an experienced React developer to lead our frontend team and mentor junior developers.",
+    description:
+      "Seeking an experienced React developer to lead our frontend team and mentor junior developers.",
     requirements: ["React", "TypeScript", "Redux", "5+ years experience"],
     location: "Lahore, Pakistan",
     type: "full-time",
@@ -242,7 +266,8 @@ export const mockJobs: JobPosting[] = [
     id: "3",
     companyId: "3",
     title: "Python Backend Intern",
-    description: "Great opportunity for students to gain real-world experience in backend development.",
+    description:
+      "Great opportunity for students to gain real-world experience in backend development.",
     requirements: ["Python", "FastAPI", "SQL"],
     location: "Remote",
     type: "internship",
@@ -324,7 +349,8 @@ export const mockNotifications: Notification[] = [
     id: "3",
     userId: "1",
     title: "Job Match Found",
-    message: "A new job posting matches your skills: Junior Full-Stack Developer",
+    message:
+      "A new job posting matches your skills: Junior Full-Stack Developer",
     type: "info",
     isRead: true,
     createdAt: new Date("2024-03-19T14:20:00"),

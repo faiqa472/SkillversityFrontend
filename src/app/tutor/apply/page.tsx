@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
-import { Skeleton } from "@/components/ui/skeleton";
 
 // Skeleton Media for tutor profiles
 function SkeletonMedia() {
@@ -41,7 +40,12 @@ const featuredTutors = [
   { name: "Ahmed K.", expertise: "Python & ML", students: 1250, rating: 4.9 },
   { name: "Sarah A.", expertise: "React & Node", students: 890, rating: 4.8 },
   { name: "Ali H.", expertise: "Data Science", students: 2100, rating: 4.9 },
-  { name: "Fatima M.", expertise: "Cloud & DevOps", students: 670, rating: 4.7 },
+  {
+    name: "Fatima M.",
+    expertise: "Cloud & DevOps",
+    students: 670,
+    rating: 4.7,
+  },
 ];
 
 export default function TutorApplicationPage() {
@@ -173,7 +177,9 @@ export default function TutorApplicationPage() {
                     <Award className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
-                    <CardTitle className="text-base">Build Reputation</CardTitle>
+                    <CardTitle className="text-base">
+                      Build Reputation
+                    </CardTitle>
                     <CardDescription className="text-sm">
                       Establish thought leadership
                     </CardDescription>
@@ -196,7 +202,9 @@ export default function TutorApplicationPage() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-green-500" />
-                    <span className="text-sm">Complete professional profile</span>
+                    <span className="text-sm">
+                      Complete professional profile
+                    </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-green-500" />

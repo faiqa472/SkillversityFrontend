@@ -3,15 +3,13 @@
  * Handles all API calls for the learning tracks/paths system
  */
 
-import { apiClient } from './api';
+import { apiClient } from "./api";
 import {
   TechnologyCategory,
   Technology,
   LearningTrack,
   TrackModule,
-  TrackResource,
   TrackFollower,
-  TechnologyFollower,
   TrackServiceProvider,
   TrackEndorsement,
   TrackChangeRequest,
@@ -20,9 +18,9 @@ import {
   TrackCreateRequest,
   TrackUpdateRequest,
   TrackSearchParams,
-} from '@/types/tracks';
+} from "@/types/tracks";
 
-const BASE_URL = '/api/learning';
+const BASE_URL = "/api/learning";
 
 // =============================================================================
 // TECHNOLOGY CATEGORY API
@@ -55,14 +53,16 @@ export const technologiesApi = {
     search?: string;
   }): Promise<PaginatedResponse<Technology>> => {
     const queryParams = new URLSearchParams();
-    if (params?.category) queryParams.append('category', params.category);
-    if (params?.type) queryParams.append('type', params.type);
-    if (params?.trending) queryParams.append('trending', 'true');
-    if (params?.featured) queryParams.append('featured', 'true');
-    if (params?.search) queryParams.append('search', params.search);
-    
+    if (params?.category) queryParams.append("category", params.category);
+    if (params?.type) queryParams.append("type", params.type);
+    if (params?.trending) queryParams.append("trending", "true");
+    if (params?.featured) queryParams.append("featured", "true");
+    if (params?.search) queryParams.append("search", params.search);
+
     const query = queryParams.toString();
-    return apiClient.get(`${BASE_URL}/technologies/${query ? `?${query}` : ''}`);
+    return apiClient.get(
+      `${BASE_URL}/technologies/${query ? `?${query}` : ""}`,
+    );
   },
 
   get: async (slug: string): Promise<Technology> => {
@@ -83,19 +83,21 @@ export const technologiesApi = {
 // =============================================================================
 
 export const tracksApi = {
-  list: async (params?: TrackSearchParams): Promise<PaginatedResponse<LearningTrack>> => {
+  list: async (
+    params?: TrackSearchParams,
+  ): Promise<PaginatedResponse<LearningTrack>> => {
     const queryParams = new URLSearchParams();
-    if (params?.search) queryParams.append('search', params.search);
-    if (params?.technology) queryParams.append('technology', params.technology);
-    if (params?.track_type) queryParams.append('track_type', params.track_type);
-    if (params?.difficulty) queryParams.append('difficulty', params.difficulty);
-    if (params?.open_only) queryParams.append('open_only', 'true');
-    if (params?.verified_only) queryParams.append('verified_only', 'true');
-    if (params?.ordering) queryParams.append('ordering', params.ordering);
-    if (params?.page) queryParams.append('page', String(params.page));
-    
+    if (params?.search) queryParams.append("search", params.search);
+    if (params?.technology) queryParams.append("technology", params.technology);
+    if (params?.track_type) queryParams.append("track_type", params.track_type);
+    if (params?.difficulty) queryParams.append("difficulty", params.difficulty);
+    if (params?.open_only) queryParams.append("open_only", "true");
+    if (params?.verified_only) queryParams.append("verified_only", "true");
+    if (params?.ordering) queryParams.append("ordering", params.ordering);
+    if (params?.page) queryParams.append("page", String(params.page));
+
     const query = queryParams.toString();
-    return apiClient.get(`${BASE_URL}/tracks/${query ? `?${query}` : ''}`);
+    return apiClient.get(`${BASE_URL}/tracks/${query ? `?${query}` : ""}`);
   },
 
   get: async (slug: string): Promise<LearningTrack> => {
@@ -106,7 +108,10 @@ export const tracksApi = {
     return apiClient.post(`${BASE_URL}/tracks/`, data);
   },
 
-  update: async (slug: string, data: TrackUpdateRequest): Promise<LearningTrack> => {
+  update: async (
+    slug: string,
+    data: TrackUpdateRequest,
+  ): Promise<LearningTrack> => {
     return apiClient.patch(`${BASE_URL}/tracks/${slug}/`, data);
   },
 
@@ -118,11 +123,16 @@ export const tracksApi = {
     return apiClient.post(`${BASE_URL}/tracks/${slug}/follow/`);
   },
 
-  publish: async (slug: string): Promise<{ status: string; published_at: string }> => {
+  publish: async (
+    slug: string,
+  ): Promise<{ status: string; published_at: string }> => {
     return apiClient.post(`${BASE_URL}/tracks/${slug}/publish/`);
   },
 
-  completeModule: async (slug: string, moduleId: string): Promise<{
+  completeModule: async (
+    slug: string,
+    moduleId: string,
+  ): Promise<{
     progress_percentage: number;
     completed_modules: string[];
   }> => {
@@ -162,19 +172,33 @@ export const trackModulesApi = {
   },
 
   get: async (trackSlug: string, moduleId: string): Promise<TrackModule> => {
-    return apiClient.get(`${BASE_URL}/tracks/${trackSlug}/modules/${moduleId}/`);
+    return apiClient.get(
+      `${BASE_URL}/tracks/${trackSlug}/modules/${moduleId}/`,
+    );
   },
 
-  create: async (trackSlug: string, data: Partial<TrackModule>): Promise<TrackModule> => {
+  create: async (
+    trackSlug: string,
+    data: Partial<TrackModule>,
+  ): Promise<TrackModule> => {
     return apiClient.post(`${BASE_URL}/tracks/${trackSlug}/modules/`, data);
   },
 
-  update: async (trackSlug: string, moduleId: string, data: Partial<TrackModule>): Promise<TrackModule> => {
-    return apiClient.patch(`${BASE_URL}/tracks/${trackSlug}/modules/${moduleId}/`, data);
+  update: async (
+    trackSlug: string,
+    moduleId: string,
+    data: Partial<TrackModule>,
+  ): Promise<TrackModule> => {
+    return apiClient.patch(
+      `${BASE_URL}/tracks/${trackSlug}/modules/${moduleId}/`,
+      data,
+    );
   },
 
   delete: async (trackSlug: string, moduleId: string): Promise<void> => {
-    return apiClient.delete(`${BASE_URL}/tracks/${trackSlug}/modules/${moduleId}/`);
+    return apiClient.delete(
+      `${BASE_URL}/tracks/${trackSlug}/modules/${moduleId}/`,
+    );
   },
 };
 
@@ -189,12 +213,15 @@ export const trackProvidersApi = {
     my_services?: boolean;
   }): Promise<PaginatedResponse<TrackServiceProvider>> => {
     const queryParams = new URLSearchParams();
-    if (params?.track) queryParams.append('track', params.track);
-    if (params?.service_type) queryParams.append('service_type', params.service_type);
-    if (params?.my_services) queryParams.append('my_services', 'true');
-    
+    if (params?.track) queryParams.append("track", params.track);
+    if (params?.service_type)
+      queryParams.append("service_type", params.service_type);
+    if (params?.my_services) queryParams.append("my_services", "true");
+
     const query = queryParams.toString();
-    return apiClient.get(`${BASE_URL}/track-providers/${query ? `?${query}` : ''}`);
+    return apiClient.get(
+      `${BASE_URL}/track-providers/${query ? `?${query}` : ""}`,
+    );
   },
 
   create: async (data: {
@@ -210,7 +237,10 @@ export const trackProvidersApi = {
     return apiClient.post(`${BASE_URL}/track-providers/`, data);
   },
 
-  update: async (id: string, data: Partial<TrackServiceProvider>): Promise<TrackServiceProvider> => {
+  update: async (
+    id: string,
+    data: Partial<TrackServiceProvider>,
+  ): Promise<TrackServiceProvider> => {
     return apiClient.patch(`${BASE_URL}/track-providers/${id}/`, data);
   },
 
@@ -229,11 +259,14 @@ export const trackEndorsementsApi = {
     endorser_type?: string;
   }): Promise<PaginatedResponse<TrackEndorsement>> => {
     const queryParams = new URLSearchParams();
-    if (params?.track) queryParams.append('track', params.track);
-    if (params?.endorser_type) queryParams.append('endorser_type', params.endorser_type);
-    
+    if (params?.track) queryParams.append("track", params.track);
+    if (params?.endorser_type)
+      queryParams.append("endorser_type", params.endorser_type);
+
     const query = queryParams.toString();
-    return apiClient.get(`${BASE_URL}/track-endorsements/${query ? `?${query}` : ''}`);
+    return apiClient.get(
+      `${BASE_URL}/track-endorsements/${query ? `?${query}` : ""}`,
+    );
   },
 
   create: async (data: {
@@ -263,11 +296,13 @@ export const trackChangesApi = {
     status?: string;
   }): Promise<PaginatedResponse<TrackChangeRequest>> => {
     const queryParams = new URLSearchParams();
-    if (params?.track) queryParams.append('track', params.track);
-    if (params?.status) queryParams.append('status', params.status);
-    
+    if (params?.track) queryParams.append("track", params.track);
+    if (params?.status) queryParams.append("status", params.status);
+
     const query = queryParams.toString();
-    return apiClient.get(`${BASE_URL}/track-changes/${query ? `?${query}` : ''}`);
+    return apiClient.get(
+      `${BASE_URL}/track-changes/${query ? `?${query}` : ""}`,
+    );
   },
 
   create: async (data: {
@@ -285,6 +320,8 @@ export const trackChangesApi = {
   },
 
   reject: async (id: string, reason?: string): Promise<{ status: string }> => {
-    return apiClient.post(`${BASE_URL}/track-changes/${id}/reject/`, { reason });
+    return apiClient.post(`${BASE_URL}/track-changes/${id}/reject/`, {
+      reason,
+    });
   },
 };

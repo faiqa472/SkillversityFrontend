@@ -1,24 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { mockUsers, mockProjects } from "@/lib/mock-data";
-import { Search, Filter, Award, BookOpen, Github, Linkedin, Mail, Star } from "lucide-react";
+import {
+  Search,
+  Filter,
+  Award,
+  BookOpen,
+  Github,
+  Linkedin,
+  Mail,
+  Star,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function TalentSearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const candidates = mockUsers.filter((u) => u.role === "learner");
+  const candidates = mockUsers.filter(u => u.role === "learner");
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Talent Search</h1>
-        <p className="text-muted-foreground">Find verified professionals for your team</p>
+        <p className="text-muted-foreground">
+          Find verified professionals for your team
+        </p>
       </div>
 
       <Card>
@@ -30,7 +47,7 @@ export default function TalentSearchPage() {
                 placeholder="Search by skills, name, or experience..."
                 className="pl-9"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
               />
             </div>
             <Button variant="outline">
@@ -45,7 +62,9 @@ export default function TalentSearchPage() {
       <div className="grid gap-6 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Candidates</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Candidates
+            </CardTitle>
             <Search className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -56,7 +75,9 @@ export default function TalentSearchPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Saved Profiles</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Saved Profiles
+            </CardTitle>
             <Star className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -89,21 +110,30 @@ export default function TalentSearchPage() {
       </div>
 
       <div className="space-y-4">
-        {candidates.map((candidate) => {
-          const userProjects = mockProjects.filter((p) => p.userId === candidate.id && p.status === "verified");
-          
+        {candidates.map(candidate => {
+          const userProjects = mockProjects.filter(
+            p => p.userId === candidate.id && p.status === "verified",
+          );
+          const displayName =
+            candidate.name ?? `${candidate.first_name} ${candidate.last_name}`;
+
           return (
-            <Card key={candidate.id} className="hover:border-primary/50 transition-colors">
+            <Card
+              key={candidate.id}
+              className="hover:border-primary/50 transition-colors"
+            >
               <CardHeader>
                 <div className="flex items-start gap-4">
                   <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold">
-                    {candidate.name.charAt(0)}
+                    {(displayName || "U").charAt(0)}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-start justify-between">
                       <div>
-                        <CardTitle className="text-xl">{candidate.name}</CardTitle>
-                        <CardDescription className="mt-1">{candidate.bio}</CardDescription>
+                        <CardTitle className="text-xl">{displayName}</CardTitle>
+                        <CardDescription className="mt-1">
+                          {candidate.bio}
+                        </CardDescription>
                       </div>
                       <div className="flex gap-2">
                         <Button variant="outline" size="icon">
@@ -126,8 +156,18 @@ export default function TalentSearchPage() {
                       Verified Skills
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {["Next.js", "TypeScript", "React", "Node.js", "PostgreSQL"].map((skill) => (
-                        <Badge key={skill} variant="secondary" className="flex items-center gap-1">
+                      {[
+                        "Next.js",
+                        "TypeScript",
+                        "React",
+                        "Node.js",
+                        "PostgreSQL",
+                      ].map(skill => (
+                        <Badge
+                          key={skill}
+                          variant="secondary"
+                          className="flex items-center gap-1"
+                        >
                           <Award className="h-3 w-3" />
                           {skill}
                         </Badge>
@@ -141,15 +181,19 @@ export default function TalentSearchPage() {
                       Verified Projects ({userProjects.length})
                     </h4>
                     <div className="grid gap-2 md:grid-cols-2">
-                      {userProjects.slice(0, 2).map((project) => (
+                      {userProjects.slice(0, 2).map(project => (
                         <div key={project.id} className="border rounded-lg p-3">
                           <p className="font-medium text-sm">{project.title}</p>
                           <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
                             {project.description}
                           </p>
                           <div className="flex gap-1 mt-2">
-                            {project.technologies.slice(0, 3).map((tech) => (
-                              <Badge key={tech} variant="outline" className="text-xs">
+                            {project.technologies.slice(0, 3).map(tech => (
+                              <Badge
+                                key={tech}
+                                variant="outline"
+                                className="text-xs"
+                              >
                                 {tech}
                               </Badge>
                             ))}
@@ -171,7 +215,9 @@ export default function TalentSearchPage() {
                       </Button>
                     </div>
                     <Button variant="outline" size="sm" asChild>
-                      <Link href={`/profile/${candidate.id}`}>View Full Profile</Link>
+                      <Link href={`/profile/${candidate.id}`}>
+                        View Full Profile
+                      </Link>
                     </Button>
                   </div>
                 </div>

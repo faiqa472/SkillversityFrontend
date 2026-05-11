@@ -2,14 +2,14 @@
  * React Hooks for Learning Tracks
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 import {
   categoriesApi,
   technologiesApi,
   tracksApi,
   trackProvidersApi,
   trackEndorsementsApi,
-} from '@/lib/tracks-api';
+} from "@/lib/tracks-api";
 import {
   TechnologyCategory,
   Technology,
@@ -19,7 +19,7 @@ import {
   TrackEndorsement,
   TrackSearchParams,
   TrackStats,
-} from '@/types/tracks';
+} from "@/types/tracks";
 
 // =============================================================================
 // TECHNOLOGY HOOKS
@@ -35,11 +35,11 @@ export function useCategories() {
       try {
         setLoading(true);
         const data = await categoriesApi.list();
-        // Handle both array and paginated response
-        const results = Array.isArray(data) ? data : (data?.results || []);
-        setCategories(results);
+        setCategories(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load categories');
+        setError(
+          err instanceof Error ? err.message : "Failed to load categories",
+        );
         setCategories([]); // Ensure categories is always an array
       } finally {
         setLoading(false);
@@ -68,11 +68,11 @@ export function useTechnologies(params?: {
       try {
         setLoading(true);
         const data = await technologiesApi.list(params);
-        // Handle both array and paginated response
-        const results = Array.isArray(data) ? data : (data?.results || []);
-        setTechnologies(results);
+        setTechnologies(data.results);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load technologies');
+        setError(
+          err instanceof Error ? err.message : "Failed to load technologies",
+        );
         setTechnologies([]);
       } finally {
         setLoading(false);
@@ -80,7 +80,13 @@ export function useTechnologies(params?: {
     };
 
     fetchTechnologies();
-  }, [params?.category, params?.type, params?.trending, params?.featured, params?.search]);
+  }, [
+    params?.category,
+    params?.type,
+    params?.trending,
+    params?.featured,
+    params?.search,
+  ]);
 
   return { technologies, loading, error };
 }
@@ -99,7 +105,9 @@ export function useTechnology(slug: string) {
         const data = await technologiesApi.get(slug);
         setTechnology(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load technology');
+        setError(
+          err instanceof Error ? err.message : "Failed to load technology",
+        );
       } finally {
         setLoading(false);
       }
@@ -115,8 +123,10 @@ export function useTechnology(slug: string) {
       if (technology) {
         setTechnology({
           ...technology,
-          is_following: result.status === 'following',
-          followers_count: technology.followers_count + (result.status === 'following' ? 1 : -1),
+          is_following: result.status === "following",
+          followers_count:
+            technology.followers_count +
+            (result.status === "following" ? 1 : -1),
         });
       }
       return result;
@@ -143,12 +153,10 @@ export function useTracks(params?: TrackSearchParams) {
       try {
         setLoading(true);
         const data = await tracksApi.list(params);
-        // Handle both array and paginated response
-        const results = Array.isArray(data) ? data : (data?.results || []);
-        setTracks(results);
-        setTotalCount(Array.isArray(data) ? data.length : (data?.count || 0));
+        setTracks(data.results);
+        setTotalCount(data.count || 0);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load tracks');
+        setError(err instanceof Error ? err.message : "Failed to load tracks");
         setTracks([]);
       } finally {
         setLoading(false);
@@ -184,7 +192,7 @@ export function useTrack(slug: string) {
         const data = await tracksApi.get(slug);
         setTrack(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load track');
+        setError(err instanceof Error ? err.message : "Failed to load track");
       } finally {
         setLoading(false);
       }
@@ -200,8 +208,9 @@ export function useTrack(slug: string) {
       if (track) {
         setTrack({
           ...track,
-          is_following: result.status === 'following',
-          followers_count: track.followers_count + (result.status === 'following' ? 1 : -1),
+          is_following: result.status === "following",
+          followers_count:
+            track.followers_count + (result.status === "following" ? 1 : -1),
         });
       }
       return result;
@@ -210,26 +219,33 @@ export function useTrack(slug: string) {
     }
   }, [slug, track]);
 
-  const completeModule = useCallback(async (moduleId: string) => {
-    if (!slug) return;
-    try {
-      const result = await tracksApi.completeModule(slug, moduleId);
-      if (track) {
-        setTrack({
-          ...track,
-          user_progress: {
-            progress_percentage: result.progress_percentage,
-            completed_modules: result.completed_modules,
-            started_at: track.user_progress?.started_at || new Date().toISOString(),
-            completed_at: result.progress_percentage >= 100 ? new Date().toISOString() : null,
-          },
-        });
+  const completeModule = useCallback(
+    async (moduleId: string) => {
+      if (!slug) return;
+      try {
+        const result = await tracksApi.completeModule(slug, moduleId);
+        if (track) {
+          setTrack({
+            ...track,
+            user_progress: {
+              progress_percentage: result.progress_percentage,
+              completed_modules: result.completed_modules,
+              started_at:
+                track.user_progress?.started_at || new Date().toISOString(),
+              completed_at:
+                result.progress_percentage >= 100
+                  ? new Date().toISOString()
+                  : null,
+            },
+          });
+        }
+        return result;
+      } catch (err) {
+        throw err;
       }
-      return result;
-    } catch (err) {
-      throw err;
-    }
-  }, [slug, track]);
+    },
+    [slug, track],
+  );
 
   return { track, loading, error, followTrack, completeModule };
 }
@@ -244,11 +260,11 @@ export function useMyTracks() {
       try {
         setLoading(true);
         const data = await tracksApi.myTracks();
-        // Handle both array and paginated response
-        const results = Array.isArray(data) ? data : (data?.results || []);
-        setTracks(results);
+        setTracks(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load your tracks');
+        setError(
+          err instanceof Error ? err.message : "Failed to load your tracks",
+        );
         setTracks([]);
       } finally {
         setLoading(false);
@@ -271,11 +287,13 @@ export function useFollowingTracks() {
       try {
         setLoading(true);
         const data = await tracksApi.following();
-        // Handle both array and paginated response
-        const results = Array.isArray(data) ? data : (data?.results || []);
-        setFollowing(results);
+        setFollowing(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load following tracks');
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load following tracks",
+        );
         setFollowing([]);
       } finally {
         setLoading(false);
@@ -302,7 +320,9 @@ export function useTrackStats(slug: string) {
         const data = await tracksApi.getStats(slug);
         setStats(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load track stats');
+        setError(
+          err instanceof Error ? err.message : "Failed to load track stats",
+        );
       } finally {
         setLoading(false);
       }
@@ -328,11 +348,11 @@ export function useTrackProviders(trackSlug?: string) {
       try {
         setLoading(true);
         const data = await trackProvidersApi.list({ track: trackSlug });
-        // Handle both array and paginated response
-        const results = Array.isArray(data) ? data : (data?.results || []);
-        setProviders(results);
+        setProviders(data.results);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load providers');
+        setError(
+          err instanceof Error ? err.message : "Failed to load providers",
+        );
         setProviders([]);
       } finally {
         setLoading(false);
@@ -360,10 +380,12 @@ export function useTrackEndorsements(trackSlug?: string) {
         setLoading(true);
         const data = await trackEndorsementsApi.list({ track: trackSlug });
         // Handle both array and paginated response
-        const results = Array.isArray(data) ? data : (data?.results || []);
+        const results = Array.isArray(data) ? data : data?.results || [];
         setEndorsements(results);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load endorsements');
+        setError(
+          err instanceof Error ? err.message : "Failed to load endorsements",
+        );
         setEndorsements([]);
       } finally {
         setLoading(false);

@@ -1,26 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Code, 
-  Github, 
-  Globe, 
-  GraduationCap, 
-  ArrowLeft, 
-  Upload, 
-  Link as LinkIcon,
+import {
+  Code,
+  Github,
+  GraduationCap,
+  ArrowLeft,
+  Upload,
   Sparkles,
   Clock,
-  Bell
+  Bell,
 } from "lucide-react";
 import Link from "next/link";
 
 // Skeleton Media Component
-function SkeletonMedia({ variant = "project" }: { variant?: "project" | "course" | "repo" }) {
+function SkeletonMedia({
+  variant = "project",
+}: {
+  variant?: "project" | "course" | "repo";
+}) {
   return (
     <div className="relative overflow-hidden rounded-lg bg-muted aspect-video">
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skeleton-shimmer" />
@@ -39,16 +47,52 @@ function SkeletonMedia({ variant = "project" }: { variant?: "project" | "course"
 
 // Dummy course projects
 const courseProjects = [
-  { id: 1, name: "E-commerce Dashboard", course: "Full-Stack Web Development", status: "completed", tech: ["React", "Node.js", "PostgreSQL"] },
-  { id: 2, name: "ML Image Classifier", course: "Python for Data Science", status: "in_progress", tech: ["Python", "TensorFlow", "OpenCV"] },
-  { id: 3, name: "Mobile Weather App", course: "React Native Bootcamp", status: "completed", tech: ["React Native", "Expo", "API"] },
+  {
+    id: 1,
+    name: "E-commerce Dashboard",
+    course: "Full-Stack Web Development",
+    status: "completed",
+    tech: ["React", "Node.js", "PostgreSQL"],
+  },
+  {
+    id: 2,
+    name: "ML Image Classifier",
+    course: "Python for Data Science",
+    status: "in_progress",
+    tech: ["Python", "TensorFlow", "OpenCV"],
+  },
+  {
+    id: 3,
+    name: "Mobile Weather App",
+    course: "React Native Bootcamp",
+    status: "completed",
+    tech: ["React Native", "Expo", "API"],
+  },
 ];
 
 // Dummy GitHub repos
 const githubRepos = [
-  { id: 1, name: "portfolio-website", description: "Personal portfolio built with Next.js", stars: 12, language: "TypeScript" },
-  { id: 2, name: "task-manager-api", description: "RESTful API for task management", stars: 8, language: "Python" },
-  { id: 3, name: "react-components", description: "Reusable React component library", stars: 24, language: "JavaScript" },
+  {
+    id: 1,
+    name: "portfolio-website",
+    description: "Personal portfolio built with Next.js",
+    stars: 12,
+    language: "TypeScript",
+  },
+  {
+    id: 2,
+    name: "task-manager-api",
+    description: "RESTful API for task management",
+    stars: 8,
+    language: "Python",
+  },
+  {
+    id: 3,
+    name: "react-components",
+    description: "Reusable React component library",
+    stars: 24,
+    language: "JavaScript",
+  },
 ];
 
 export default function NewProjectPage() {
@@ -65,7 +109,9 @@ export default function NewProjectPage() {
         </Button>
         <div>
           <h1 className="text-2xl font-bold">Add Project</h1>
-          <p className="text-muted-foreground">Showcase your work to the community</p>
+          <p className="text-muted-foreground">
+            Showcase your work to the community
+          </p>
         </div>
       </div>
 
@@ -75,14 +121,22 @@ export default function NewProjectPage() {
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <div className="flex items-center gap-2">
               <Clock className="h-5 w-5 text-amber-600" />
-              <Badge variant="secondary" className="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200">
+              <Badge
+                variant="secondary"
+                className="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200"
+              >
                 Coming Soon
               </Badge>
             </div>
             <p className="text-sm text-muted-foreground flex-1 text-center sm:text-left">
-              Project showcase feature is under development. Get notified when it launches!
+              Project showcase feature is under development. Get notified when
+              it launches!
             </p>
-            <Button size="sm" variant="outline" className="border-amber-300 text-amber-700 hover:bg-amber-100">
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-amber-300 text-amber-700 hover:bg-amber-100"
+            >
               <Bell className="mr-2 h-4 w-4" />
               Notify Me
             </Button>
@@ -91,7 +145,11 @@ export default function NewProjectPage() {
       </Card>
 
       {/* Import Sources */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-6"
+      >
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="skillversity" className="gap-2">
             <GraduationCap className="h-4 w-4" />
@@ -121,23 +179,38 @@ export default function NewProjectPage() {
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2">
-                {courseProjects.map((project) => (
-                  <div key={project.id} className="group p-4 rounded-lg border hover:border-primary/50 transition-all opacity-60 cursor-not-allowed">
+                {courseProjects.map(project => (
+                  <div
+                    key={project.id}
+                    className="group p-4 rounded-lg border hover:border-primary/50 transition-all opacity-60 cursor-not-allowed"
+                  >
                     <div className="mb-3">
                       <SkeletonMedia variant="course" />
                     </div>
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="font-semibold">{project.name}</h3>
-                        <p className="text-sm text-muted-foreground">{project.course}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {project.course}
+                        </p>
                       </div>
-                      <Badge variant={project.status === "completed" ? "default" : "secondary"}>
-                        {project.status === "completed" ? "Completed" : "In Progress"}
+                      <Badge
+                        variant={
+                          project.status === "completed"
+                            ? "default"
+                            : "secondary"
+                        }
+                      >
+                        {project.status === "completed"
+                          ? "Completed"
+                          : "In Progress"}
                       </Badge>
                     </div>
                     <div className="flex flex-wrap gap-1 mt-2">
-                      {project.tech.map((t) => (
-                        <Badge key={t} variant="outline" className="text-xs">{t}</Badge>
+                      {project.tech.map(t => (
+                        <Badge key={t} variant="outline" className="text-xs">
+                          {t}
+                        </Badge>
                       ))}
                     </div>
                   </div>
@@ -166,7 +239,9 @@ export default function NewProjectPage() {
                   <div className="h-12 w-12 rounded-full bg-gray-900 dark:bg-gray-100 mx-auto flex items-center justify-center">
                     <Github className="h-6 w-6 text-white dark:text-gray-900" />
                   </div>
-                  <p className="text-muted-foreground">Connect your GitHub account to import repositories</p>
+                  <p className="text-muted-foreground">
+                    Connect your GitHub account to import repositories
+                  </p>
                   <Button disabled className="opacity-60">
                     <Github className="mr-2 h-4 w-4" />
                     Connect GitHub
@@ -176,16 +251,23 @@ export default function NewProjectPage() {
 
               {/* Preview Repos */}
               <div className="pt-4 border-t">
-                <p className="text-sm font-medium mb-3 text-muted-foreground">Preview: Your repositories will appear like this</p>
+                <p className="text-sm font-medium mb-3 text-muted-foreground">
+                  Preview: Your repositories will appear like this
+                </p>
                 <div className="grid gap-3">
-                  {githubRepos.map((repo) => (
-                    <div key={repo.id} className="flex items-center gap-4 p-3 rounded-lg border opacity-60">
+                  {githubRepos.map(repo => (
+                    <div
+                      key={repo.id}
+                      className="flex items-center gap-4 p-3 rounded-lg border opacity-60"
+                    >
                       <div className="h-10 w-10 rounded bg-muted flex items-center justify-center">
                         <Code className="h-5 w-5 text-muted-foreground" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-medium">{repo.name}</p>
-                        <p className="text-sm text-muted-foreground truncate">{repo.description}</p>
+                        <p className="text-sm text-muted-foreground truncate">
+                          {repo.description}
+                        </p>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Badge variant="outline">{repo.language}</Badge>
@@ -218,7 +300,8 @@ export default function NewProjectPage() {
                 </div>
                 <h3 className="font-semibold mb-2">Create Project Entry</h3>
                 <p className="text-muted-foreground text-center max-w-md mb-4">
-                  Add project name, description, technologies used, screenshots, and links to live demo or source code.
+                  Add project name, description, technologies used, screenshots,
+                  and links to live demo or source code.
                 </p>
                 <Button disabled className="opacity-60">
                   <Upload className="mr-2 h-4 w-4" />
@@ -264,15 +347,21 @@ export default function NewProjectPage() {
           <div className="grid gap-4 md:grid-cols-3">
             <div className="p-3 rounded-lg bg-background border">
               <p className="font-medium text-sm">Auto-Import</p>
-              <p className="text-xs text-muted-foreground">Automatically sync projects from GitHub</p>
+              <p className="text-xs text-muted-foreground">
+                Automatically sync projects from GitHub
+              </p>
             </div>
             <div className="p-3 rounded-lg bg-background border">
               <p className="font-medium text-sm">Project Analytics</p>
-              <p className="text-xs text-muted-foreground">Track views and engagement</p>
+              <p className="text-xs text-muted-foreground">
+                Track views and engagement
+              </p>
             </div>
             <div className="p-3 rounded-lg bg-background border">
               <p className="font-medium text-sm">Skill Verification</p>
-              <p className="text-xs text-muted-foreground">Get skills verified through projects</p>
+              <p className="text-xs text-muted-foreground">
+                Get skills verified through projects
+              </p>
             </div>
           </div>
         </CardContent>

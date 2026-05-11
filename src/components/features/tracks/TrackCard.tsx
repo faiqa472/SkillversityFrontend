@@ -6,8 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LearningTrack } from "@/types/tracks";
 import {
-  Clock, Users, Star, BookOpen, Bookmark, BookmarkCheck,
-  CheckCircle, Building2, GraduationCap, Globe, TrendingUp
+  Clock,
+  Users,
+  Star,
+  BookOpen,
+  Bookmark,
+  BookmarkCheck,
+  CheckCircle,
+  Building2,
+  GraduationCap,
+  Globe,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,9 +27,12 @@ interface TrackCardProps {
 }
 
 const difficultyColors: Record<string, string> = {
-  beginner: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-  intermediate: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
-  advanced: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
+  beginner:
+    "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+  intermediate:
+    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+  advanced:
+    "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
   expert: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
   all: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
 };
@@ -40,14 +51,19 @@ const trackTypeLabels: Record<string, string> = {
   skillversity: "Curated",
 };
 
-export function TrackCard({ track, onClick, onFollow, variant = "default" }: TrackCardProps) {
+export function TrackCard({
+  track,
+  onClick,
+  onFollow,
+  variant = "default",
+}: TrackCardProps) {
   const isCompact = variant === "compact";
 
   return (
     <Card
       className={cn(
         "group cursor-pointer transition-all hover:shadow-lg hover:border-primary/50",
-        isCompact && "p-3"
+        isCompact && "p-3",
       )}
       onClick={onClick}
     >
@@ -79,13 +95,13 @@ export function TrackCard({ track, onClick, onFollow, variant = "default" }: Tra
               </div>
             </div>
           </div>
-          
+
           {/* Bookmark Button */}
           <Button
             variant="ghost"
             size="icon"
             className="h-8 w-8 shrink-0"
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               onFollow?.();
             }}
@@ -109,7 +125,9 @@ export function TrackCard({ track, onClick, onFollow, variant = "default" }: Tra
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-3">
-          <Badge className={cn("text-xs", difficultyColors[track.difficulty_level])}>
+          <Badge
+            className={cn("text-xs", difficultyColors[track.difficulty_level])}
+          >
             {track.difficulty_level}
           </Badge>
           {track.primary_technology && (
@@ -151,7 +169,8 @@ export function TrackCard({ track, onClick, onFollow, variant = "default" }: Tra
         </div>
 
         {/* Service Providers Info */}
-        {(track.tutors_offering_count > 0 || track.companies_hiring_count > 0) && (
+        {(track.tutors_offering_count > 0 ||
+          track.companies_hiring_count > 0) && (
           <div className="flex items-center gap-3 mt-3 pt-3 border-t text-xs">
             {track.tutors_offering_count > 0 && (
               <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
@@ -173,7 +192,9 @@ export function TrackCard({ track, onClick, onFollow, variant = "default" }: Tra
           <div className="mt-3 pt-3 border-t">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="text-muted-foreground">Your Progress</span>
-              <span className="font-medium">{track.user_progress.progress_percentage}%</span>
+              <span className="font-medium">
+                {track.user_progress.progress_percentage}%
+              </span>
             </div>
             <div className="h-1.5 bg-muted rounded-full overflow-hidden">
               <div
@@ -189,11 +210,13 @@ export function TrackCard({ track, onClick, onFollow, variant = "default" }: Tra
           <div className="flex items-center gap-2 mt-3 pt-3 border-t">
             <Avatar className="h-6 w-6">
               <AvatarFallback className="text-xs">
-                {track.author.first_name?.[0]}{track.author.last_name?.[0]}
+                {track.author.first_name?.[0]}
+                {track.author.last_name?.[0]}
               </AvatarFallback>
             </Avatar>
             <span className="text-xs text-muted-foreground">
-              {track.organization_name || `${track.author.first_name} ${track.author.last_name}`}
+              {track.organization_name ||
+                `${track.author.first_name} ${track.author.last_name}`}
             </span>
           </div>
         )}

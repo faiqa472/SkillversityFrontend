@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 
 type Theme = "light" | "dark" | "system";
 
@@ -41,7 +47,7 @@ export function ThemeProvider({
     if (!mounted) return;
 
     const root = document.documentElement;
-    
+
     const applyTheme = (isDark: boolean) => {
       root.classList.remove("light", "dark");
       root.classList.add(isDark ? "dark" : "light");
@@ -49,7 +55,9 @@ export function ThemeProvider({
     };
 
     if (theme === "system") {
-      const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const systemDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
       applyTheme(systemDark);
 
       // Listen for system theme changes
@@ -63,6 +71,7 @@ export function ThemeProvider({
       return () => mediaQuery.removeEventListener("change", handleChange);
     } else {
       applyTheme(theme === "dark");
+      return;
     }
   }, [theme, mounted]);
 
@@ -75,8 +84,10 @@ export function ThemeProvider({
   useEffect(() => {
     // This runs once on mount to ensure theme is applied immediately
     const savedTheme = localStorage.getItem(storageKey);
-    if (savedTheme === "dark" || 
-        (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+    if (
+      savedTheme === "dark" ||
+      (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
       document.documentElement.classList.add("dark");
     }
   }, [storageKey]);

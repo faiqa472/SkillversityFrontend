@@ -18,8 +18,16 @@ import { useTracks } from "@/hooks/useTracks";
 import { tracksApi } from "@/lib/tracks-api";
 import { TrackSearchParams, TrackType, TrackDifficulty } from "@/types/tracks";
 import {
-  Search, SlidersHorizontal, Grid3X3, List, ChevronLeft, ChevronRight,
-  Building2, GraduationCap, Globe, CheckCircle, Filter
+  Search,
+  Grid3X3,
+  List,
+  ChevronLeft,
+  ChevronRight,
+  Building2,
+  GraduationCap,
+  Globe,
+  CheckCircle,
+  Filter,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -30,10 +38,26 @@ interface TrackBrowserProps {
 
 const trackTypeOptions = [
   { value: "all", label: "All Types", icon: null },
-  { value: "official", label: "Official", icon: <Building2 className="h-4 w-4" /> },
-  { value: "tutor", label: "Tutor Created", icon: <GraduationCap className="h-4 w-4" /> },
-  { value: "community", label: "Community", icon: <Globe className="h-4 w-4" /> },
-  { value: "skillversity", label: "Curated", icon: <CheckCircle className="h-4 w-4" /> },
+  {
+    value: "official",
+    label: "Official",
+    icon: <Building2 className="h-4 w-4" />,
+  },
+  {
+    value: "tutor",
+    label: "Tutor Created",
+    icon: <GraduationCap className="h-4 w-4" />,
+  },
+  {
+    value: "community",
+    label: "Community",
+    icon: <Globe className="h-4 w-4" />,
+  },
+  {
+    value: "skillversity",
+    label: "Curated",
+    icon: <CheckCircle className="h-4 w-4" />,
+  },
 ];
 
 const difficultyOptions = [
@@ -52,7 +76,10 @@ const sortOptions = [
   { value: "title", label: "A-Z" },
 ];
 
-export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProps) {
+export function TrackBrowser({
+  onSelectTrack,
+  initialFilters,
+}: TrackBrowserProps) {
   const router = useRouter();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
@@ -60,19 +87,30 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
 
   // Filter state
   const [search, setSearch] = useState(initialFilters?.search || "");
-  const [technology, setTechnology] = useState(initialFilters?.technology || "all");
-  const [trackType, setTrackType] = useState<string>(initialFilters?.track_type || "all");
-  const [difficulty, setDifficulty] = useState<string>(initialFilters?.difficulty || "all");
-  const [ordering, setOrdering] = useState(initialFilters?.ordering || "-followers_count");
+  const [technology, setTechnology] = useState(
+    initialFilters?.technology || "all",
+  );
+  const [trackType, setTrackType] = useState<string>(
+    initialFilters?.track_type || "all",
+  );
+  const [difficulty, setDifficulty] = useState<string>(
+    initialFilters?.difficulty || "all",
+  );
+  const [ordering, setOrdering] = useState(
+    initialFilters?.ordering || "-followers_count",
+  );
   const [openOnly, setOpenOnly] = useState(initialFilters?.open_only || false);
-  const [verifiedOnly, setVerifiedOnly] = useState(initialFilters?.verified_only || false);
+  const [verifiedOnly, setVerifiedOnly] = useState(
+    initialFilters?.verified_only || false,
+  );
 
   // Build search params
   const searchParams: TrackSearchParams = {
     search: search || undefined,
     technology: technology !== "all" ? technology : undefined,
     track_type: trackType !== "all" ? (trackType as TrackType) : undefined,
-    difficulty: difficulty !== "all" ? (difficulty as TrackDifficulty) : undefined,
+    difficulty:
+      difficulty !== "all" ? (difficulty as TrackDifficulty) : undefined,
     ordering,
     open_only: openOnly || undefined,
     verified_only: verifiedOnly || undefined,
@@ -110,7 +148,7 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
           <Input
             placeholder="Search tracks by name, skill, or technology..."
             value={search}
-            onChange={(e) => {
+            onChange={e => {
               setSearch(e.target.value);
               setPage(1);
             }}
@@ -122,7 +160,7 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
         <div className="flex gap-2 flex-wrap">
           <TechnologySelect
             value={technology}
-            onValueChange={(v) => {
+            onValueChange={v => {
               setTechnology(v);
               setPage(1);
             }}
@@ -130,12 +168,18 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
             className="w-[160px]"
           />
 
-          <Select value={trackType} onValueChange={(v) => { setTrackType(v); setPage(1); }}>
+          <Select
+            value={trackType}
+            onValueChange={v => {
+              setTrackType(v);
+              setPage(1);
+            }}
+          >
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Track Type" />
             </SelectTrigger>
             <SelectContent>
-              {trackTypeOptions.map((opt) => (
+              {trackTypeOptions.map(opt => (
                 <SelectItem key={opt.value} value={opt.value}>
                   <div className="flex items-center gap-2">
                     {opt.icon}
@@ -146,12 +190,18 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
             </SelectContent>
           </Select>
 
-          <Select value={difficulty} onValueChange={(v) => { setDifficulty(v); setPage(1); }}>
+          <Select
+            value={difficulty}
+            onValueChange={v => {
+              setDifficulty(v);
+              setPage(1);
+            }}
+          >
             <SelectTrigger className="w-[130px]">
               <SelectValue placeholder="Difficulty" />
             </SelectTrigger>
             <SelectContent>
-              {difficultyOptions.map((opt) => (
+              {difficultyOptions.map(opt => (
                 <SelectItem key={opt.value} value={opt.value}>
                   {opt.label}
                 </SelectItem>
@@ -164,7 +214,7 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
-              {sortOptions.map((opt) => (
+              {sortOptions.map(opt => (
                 <SelectItem key={opt.value} value={opt.value}>
                   {opt.label}
                 </SelectItem>
@@ -210,7 +260,10 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
             <input
               type="checkbox"
               checked={openOnly}
-              onChange={(e) => { setOpenOnly(e.target.checked); setPage(1); }}
+              onChange={e => {
+                setOpenOnly(e.target.checked);
+                setPage(1);
+              }}
               className="rounded"
             />
             Open Paths Only
@@ -219,7 +272,10 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
             <input
               type="checkbox"
               checked={verifiedOnly}
-              onChange={(e) => { setVerifiedOnly(e.target.checked); setPage(1); }}
+              onChange={e => {
+                setVerifiedOnly(e.target.checked);
+                setPage(1);
+              }}
               className="rounded"
             />
             Verified Sources Only
@@ -229,9 +285,7 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
 
       {/* Results Count */}
       <div className="flex items-center justify-between text-sm text-muted-foreground">
-        <span>
-          {loading ? "Loading..." : `${totalCount} tracks found`}
-        </span>
+        <span>{loading ? "Loading..." : `${totalCount} tracks found`}</span>
       </div>
 
       {/* Error State */}
@@ -243,12 +297,17 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
 
       {/* Track Grid/List */}
       {loading ? (
-        <div className={cn(
-          viewMode === "grid"
-            ? "grid gap-4 md:grid-cols-2 lg:grid-cols-3"
-            : "space-y-3"
-        )}>
-          <TrackCardSkeleton count={6} variant={viewMode === "list" ? "compact" : "default"} />
+        <div
+          className={cn(
+            viewMode === "grid"
+              ? "grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+              : "space-y-3",
+          )}
+        >
+          <TrackCardSkeleton
+            count={6}
+            variant={viewMode === "list" ? "compact" : "default"}
+          />
         </div>
       ) : tracks.length === 0 ? (
         <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary/5 via-background to-emerald-500/5 border border-primary/10 p-8">
@@ -266,8 +325,9 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
               Coming Soon
             </h3>
             <p className="text-sm text-muted-foreground max-w-md mb-4">
-              Learning tracks are being curated by experts. Check back soon for authentic, 
-              verified learning paths from companies, tutors, and the community.
+              Learning tracks are being curated by experts. Check back soon for
+              authentic, verified learning paths from companies, tutors, and the
+              community.
             </p>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" asChild>
@@ -277,12 +337,14 @@ export function TrackBrowser({ onSelectTrack, initialFilters }: TrackBrowserProp
           </div>
         </div>
       ) : (
-        <div className={cn(
-          viewMode === "grid"
-            ? "grid gap-4 md:grid-cols-2 lg:grid-cols-3"
-            : "space-y-3"
-        )}>
-          {tracks.map((track) => (
+        <div
+          className={cn(
+            viewMode === "grid"
+              ? "grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+              : "space-y-3",
+          )}
+        >
+          {tracks.map(track => (
             <TrackCard
               key={track.id}
               track={track}

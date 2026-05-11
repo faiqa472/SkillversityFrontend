@@ -18,7 +18,7 @@ import {
   Map,
   Code,
   GitBranch,
-  Activity
+  Activity,
 } from "lucide-react";
 import Link from "next/link";
 import { useRole } from "@/hooks/useRole";
@@ -33,9 +33,8 @@ const ACTIVITY_DAYS = Array.from({ length: 14 }, (_, i) => ({
 
 export default function DashboardHub() {
   const [userName, setUserName] = useState("");
-  const { hasSelectedRole, isProfileComplete, isTutorPending } = useRole();
+  const { hasSelectedRole } = useRole();
   // const [loading, setLoading] = useState(true);
-
 
   const [projectCount, setProjectCount] = useState(0);
   // const [contributionCount, setContributionCount] = useState(0); // Future API
@@ -87,7 +86,6 @@ export default function DashboardHub() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-
       {/* 1. Hub Header / Command Center */}
       <div className="grid gap-6 md:grid-cols-12">
         {/* Welcome & Pulse */}
@@ -101,10 +99,15 @@ export default function DashboardHub() {
                   <span>System Status: Online</span>
                 </div>
                 <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-                  Welcome to your <span className="text-primary">Creator Hub</span>, {userName}.
+                  Welcome to your{" "}
+                  <span className="text-primary">Creator Hub</span>, {userName}.
                 </h1>
                 <p className="text-muted-foreground text-lg max-w-2xl">
-                  You have <span className="text-foreground font-semibold">{projectCount} Active Projects</span> and are exploring Open Curricula.
+                  You have{" "}
+                  <span className="text-foreground font-semibold">
+                    {projectCount} Active Projects
+                  </span>{" "}
+                  and are exploring Open Curricula.
                 </p>
 
                 <div className="flex flex-wrap gap-3 mt-2">
@@ -113,7 +116,12 @@ export default function DashboardHub() {
                       <GitBranch className="mr-2 h-4 w-4" /> Learning Paths
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg" className="rounded-full bg-background/60">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="rounded-full bg-background/60"
+                  >
                     <Link href="/projects">
                       <Code className="mr-2 h-4 w-4" /> My Projects
                     </Link>
@@ -126,8 +134,12 @@ export default function DashboardHub() {
           {/* Activity Graph (GitHub Style) */}
           <div className="space-y-2">
             <div className="flex items-center justify-between px-1">
-              <h3 className="text-sm font-semibold text-muted-foreground">Contribution Activity</h3>
-              <span className="text-xs text-muted-foreground">Last 14 Days</span>
+              <h3 className="text-sm font-semibold text-muted-foreground">
+                Contribution Activity
+              </h3>
+              <span className="text-xs text-muted-foreground">
+                Last 14 Days
+              </span>
             </div>
             <div className="flex gap-2">
               {ACTIVITY_DAYS.map((d, i) => (
@@ -149,7 +161,6 @@ flex - 1 h - 24 rounded - lg transition - all hover: scale - 105 cursor - pointe
 
         {/* Sidebar Widgets */}
         <div className="md:col-span-4 lg:col-span-3 space-y-4">
-
           {/* Streak / Stats */}
           <Card className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border-orange-200 dark:border-orange-900/30">
             <CardContent className="p-6 flex flex-col items-center justify-center text-center">
@@ -158,7 +169,9 @@ flex - 1 h - 24 rounded - lg transition - all hover: scale - 105 cursor - pointe
               </div>
               <div className="space-y-1">
                 <span className="text-3xl font-bold font-mono">12</span>
-                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Day Streak</p>
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                  Day Streak
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -178,8 +191,12 @@ flex - 1 h - 24 rounded - lg transition - all hover: scale - 105 cursor - pointe
                       <GitBranch className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium group-hover:text-primary transition-colors">Rust for WebDevs</p>
-                      <p className="text-xs text-muted-foreground">New Path • 1.2k Stars</p>
+                      <p className="text-sm font-medium group-hover:text-primary transition-colors">
+                        Rust for WebDevs
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        New Path • 1.2k Stars
+                      </p>
                     </div>
                   </div>
                 </Link>
@@ -189,15 +206,18 @@ flex - 1 h - 24 rounded - lg transition - all hover: scale - 105 cursor - pointe
                       <Play className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium group-hover:text-primary transition-colors">AI Agents Module</p>
-                      <p className="text-xs text-muted-foreground">New Course • 450 Enrolled</p>
+                      <p className="text-sm font-medium group-hover:text-primary transition-colors">
+                        AI Agents Module
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        New Course • 450 Enrolled
+                      </p>
                     </div>
                   </div>
                 </Link>
               </div>
             </CardContent>
           </Card>
-
         </div>
       </div>
 
@@ -209,7 +229,9 @@ flex - 1 h - 24 rounded - lg transition - all hover: scale - 105 cursor - pointe
               <CardTitle className="flex items-center gap-2 group-hover:text-primary transition-colors">
                 <GraduationCap className="w-5 h-5" /> Academy
               </CardTitle>
-              <CardDescription>Structured courses and certifications.</CardDescription>
+              <CardDescription>
+                Structured courses and certifications.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <SkeletonMedia variant="series" className="h-32 rounded-md" />
@@ -227,7 +249,9 @@ flex - 1 h - 24 rounded - lg transition - all hover: scale - 105 cursor - pointe
               <CardTitle className="flex items-center gap-2 group-hover:text-primary transition-colors">
                 <Map className="w-5 h-5" /> Learning Paths
               </CardTitle>
-              <CardDescription>Community-driven learning roadmaps.</CardDescription>
+              <CardDescription>
+                Community-driven learning roadmaps.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <SkeletonMedia variant="code" className="h-32 rounded-md" />
@@ -245,7 +269,9 @@ flex - 1 h - 24 rounded - lg transition - all hover: scale - 105 cursor - pointe
               <CardTitle className="flex items-center gap-2 group-hover:text-primary transition-colors">
                 <Code className="w-5 h-5" /> Project Lab
               </CardTitle>
-              <CardDescription>Hands-on practice to build your portfolio.</CardDescription>
+              <CardDescription>
+                Hands-on practice to build your portfolio.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <SkeletonMedia variant="image" className="h-32 rounded-md" />
@@ -257,7 +283,6 @@ flex - 1 h - 24 rounded - lg transition - all hover: scale - 105 cursor - pointe
           </Card>
         </Link>
       </div>
-
     </div>
   );
 }

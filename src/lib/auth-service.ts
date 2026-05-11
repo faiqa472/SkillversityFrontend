@@ -3,7 +3,7 @@
  * Handles all authentication-related API calls with proper error handling
  */
 
-import { apiClient, handleAPIError } from './api';
+import { apiClient, handleAPIError } from "./api";
 import {
   User,
   LoginRequest,
@@ -11,7 +11,10 @@ import {
   RegisterRequest,
   RegisterResponse,
   TokenRefreshResponse,
-} from '@/types/auth';
+  ActivationRequest,
+  PasswordChangeRequest,
+  PasswordResetConfirmRequest,
+} from "@/types/auth";
 
 /**
  * Authentication service class with comprehensive error handling
@@ -19,13 +22,18 @@ import {
 export class AuthService {
   // Authentication endpoints - using custom backend endpoints
   private static readonly ENDPOINTS = {
-    LOGIN: '/api/users/auth/login/',
-    REFRESH: '/api/auth/jwt/refresh/',
-    VERIFY: '/api/auth/jwt/verify/',
-    REGISTER: '/api/users/auth/register/',
-    USER_PROFILE: '/api/users/profile/',
-    PROFESSIONAL_PROFILE: '/api/users/profile/professional/',
-    LOGOUT: '/api/users/auth/logout/',
+    LOGIN: "/api/users/auth/login/",
+    REFRESH: "/api/auth/jwt/refresh/",
+    VERIFY: "/api/auth/jwt/verify/",
+    REGISTER: "/api/users/auth/register/",
+    USER_PROFILE: "/api/users/profile/",
+    PROFESSIONAL_PROFILE: "/api/users/profile/professional/",
+    ACTIVATE: "/api/users/auth/activate/",
+    RESEND_ACTIVATION: "/api/users/auth/resend-activation/",
+    PASSWORD_RESET: "/api/users/auth/password/reset/",
+    PASSWORD_RESET_CONFIRM: "/api/users/auth/password/reset/confirm/",
+    PASSWORD_CHANGE: "/api/users/auth/password/change/",
+    LOGOUT: "/api/users/auth/logout/",
   } as const;
 
   /**
@@ -35,14 +43,14 @@ export class AuthService {
     try {
       const response = await apiClient.post<LoginResponse>(
         this.ENDPOINTS.LOGIN,
-        credentials
+        credentials,
       );
-      
+
       // Log successful login for analytics
-      if (typeof window !== 'undefined') {
-        console.log('User logged in successfully');
+      if (typeof window !== "undefined") {
+        console.log("User logged in successfully");
       }
-      
+
       return response;
     } catch (error: any) {
       const apiError = handleAPIError(error);
@@ -57,35 +65,35 @@ export class AuthService {
     try {
       const response = await apiClient.post<RegisterResponse>(
         this.ENDPOINTS.REGISTER,
-        userData
+        userData,
       );
-      
+
       // Log successful registration for analytics
-      if (typeof window !== 'undefined') {
-        console.log('User registered successfully');
+      if (typeof window !== "undefined") {
+        console.log("User registered successfully");
       }
-      
+
       return response;
     } catch (error: any) {
       const apiError = handleAPIError(error);
-      
+
       // Handle validation errors specifically
       if (apiError.status === 400 && apiError.details) {
         const validationErrors = apiError.details;
         const errorMessages: string[] = [];
-        
+
         Object.keys(validationErrors).forEach(field => {
           const fieldErrors = validationErrors[field];
           if (Array.isArray(fieldErrors)) {
             errorMessages.push(...fieldErrors);
-          } else if (typeof fieldErrors === 'string') {
+          } else if (typeof fieldErrors === "string") {
             errorMessages.push(fieldErrors);
           }
         });
-        
-        throw new Error(errorMessages.join('. '));
+
+        throw new Error(errorMessages.join(". "));
       }
-      
+
       throw new Error(apiError.message);
     }
   }
@@ -93,13 +101,15 @@ export class AuthService {
   /**
    * Refresh JWT token
    */
-  static async refreshToken(refreshToken: string): Promise<TokenRefreshResponse> {
+  static async refreshToken(
+    refreshToken: string,
+  ): Promise<TokenRefreshResponse> {
     try {
       const response = await apiClient.post<TokenRefreshResponse>(
         this.ENDPOINTS.REFRESH,
-        { refresh: refreshToken }
+        { refresh: refreshToken },
       );
-      
+
       return response;
     } catch (error: any) {
       const apiError = handleAPIError(error);
@@ -139,10 +149,72 @@ export class AuthService {
     try {
       const response = await apiClient.patch<User>(
         this.ENDPOINTS.USER_PROFILE,
-        userData
+        userData,
       );
-      
+
       return response;
+    } catch (error: any) {
+      const apiError = handleAPIError(error);
+      throw new Error(apiError.message);
+    }
+  }
+
+  /**
+   * Activate a user account
+   */
+  static async activateAccount(data: ActivationRequest): Promise<void> {
+    try {
+      await apiClient.post(this.ENDPOINTS.ACTIVATE, data);
+    } catch (error: any) {
+      const apiError = handleAPIError(error);
+      throw new Error(apiError.message);
+    }
+  }
+
+  /**
+   * Resend activation email
+   */
+  static async resendActivation(email: string): Promise<void> {
+    try {
+      await apiClient.post(this.ENDPOINTS.RESEND_ACTIVATION, { email });
+    } catch (error: any) {
+      const apiError = handleAPIError(error);
+      throw new Error(apiError.message);
+    }
+  }
+
+  /**
+   * Request a password reset email
+   */
+  static async resetPassword(email: string): Promise<void> {
+    try {
+      await apiClient.post(this.ENDPOINTS.PASSWORD_RESET, { email });
+    } catch (error: any) {
+      const apiError = handleAPIError(error);
+      throw new Error(apiError.message);
+    }
+  }
+
+  /**
+   * Confirm a password reset
+   */
+  static async confirmPasswordReset(
+    data: PasswordResetConfirmRequest,
+  ): Promise<void> {
+    try {
+      await apiClient.post(this.ENDPOINTS.PASSWORD_RESET_CONFIRM, data);
+    } catch (error: any) {
+      const apiError = handleAPIError(error);
+      throw new Error(apiError.message);
+    }
+  }
+
+  /**
+   * Change password for authenticated users
+   */
+  static async changePassword(data: PasswordChangeRequest): Promise<void> {
+    try {
+      await apiClient.post(this.ENDPOINTS.PASSWORD_CHANGE, data);
     } catch (error: any) {
       const apiError = handleAPIError(error);
       throw new Error(apiError.message);
@@ -167,7 +239,10 @@ export class AuthService {
    */
   static async updateProfessionalProfile(data: any): Promise<any> {
     try {
-      const response = await apiClient.put(this.ENDPOINTS.PROFESSIONAL_PROFILE, data);
+      const response = await apiClient.put(
+        this.ENDPOINTS.PROFESSIONAL_PROFILE,
+        data,
+      );
       return response;
     } catch (error: any) {
       const apiError = handleAPIError(error);
@@ -185,7 +260,7 @@ export class AuthService {
       }
     } catch (error: any) {
       // Don't throw error on logout failure - still clear local tokens
-      console.warn('Logout API call failed:', error);
+      console.warn("Logout API call failed:", error);
     }
   }
 }
@@ -199,17 +274,19 @@ export class AuthUtils {
    */
   static hasPermission(user: User | null, permission: string): boolean {
     if (!user) return false;
-    
+
     // Define role-based permissions
     const rolePermissions = {
-      admin: ['*'], // Admin has all permissions
-      tutor: ['create_course', 'edit_course', 'view_analytics'],
-      industry_partner: ['post_jobs', 'manage_applications', 'view_analytics'],
-      learner: ['view_courses', 'enroll_courses'],
+      admin: ["*"], // Admin has all permissions
+      tutor: ["create_course", "edit_course", "view_analytics"],
+      industry_partner: ["post_jobs", "manage_applications", "view_analytics"],
+      learner: ["view_courses", "enroll_courses"],
     };
-    
+
     const userPermissions = rolePermissions[user.user_type] || [];
-    return userPermissions.includes('*') || userPermissions.includes(permission);
+    return (
+      userPermissions.includes("*") || userPermissions.includes(permission)
+    );
   }
 
   /**
@@ -218,7 +295,7 @@ export class AuthUtils {
   static canAccessRoute(user: User | null, requiredRole?: string): boolean {
     if (!requiredRole) return true;
     if (!user) return false;
-    
+
     // Role hierarchy: admin > industry_partner > tutor > learner
     const roleHierarchy = {
       admin: 4,
@@ -226,10 +303,11 @@ export class AuthUtils {
       tutor: 2,
       learner: 1,
     };
-    
+
     const userLevel = roleHierarchy[user.user_type] || 0;
-    const requiredLevel = roleHierarchy[requiredRole as keyof typeof roleHierarchy] || 0;
-    
+    const requiredLevel =
+      roleHierarchy[requiredRole as keyof typeof roleHierarchy] || 0;
+
     return userLevel >= requiredLevel;
   }
 
@@ -237,8 +315,12 @@ export class AuthUtils {
    * Get user display name
    */
   static getDisplayName(user: User | null): string {
-    if (!user) return 'Guest';
-    return user.full_name || `${user.first_name} ${user.last_name}`.trim() || user.email;
+    if (!user) return "Guest";
+    return (
+      user.full_name ||
+      `${user.first_name} ${user.last_name}`.trim() ||
+      user.email
+    );
   }
 
   /**
@@ -252,11 +334,11 @@ export class AuthUtils {
    * Get user initials for avatar fallback
    */
   static getUserInitials(user: User | null): string {
-    if (!user) return 'G';
-    
-    const firstName = user.first_name?.charAt(0)?.toUpperCase() || '';
-    const lastName = user.last_name?.charAt(0)?.toUpperCase() || '';
-    
+    if (!user) return "G";
+
+    const firstName = user.first_name?.charAt(0)?.toUpperCase() || "";
+    const lastName = user.last_name?.charAt(0)?.toUpperCase() || "";
+
     return firstName + lastName || user.email.charAt(0).toUpperCase();
   }
 
@@ -265,12 +347,12 @@ export class AuthUtils {
    */
   static formatUserRole(role: string): string {
     const roleMap = {
-      learner: 'Learner',
-      tutor: 'Tutor',
-      industry_partner: 'Industry Partner',
-      admin: 'Administrator',
+      learner: "Learner",
+      tutor: "Tutor",
+      industry_partner: "Industry Partner",
+      admin: "Administrator",
     };
-    
+
     return roleMap[role as keyof typeof roleMap] || role;
   }
 
@@ -279,8 +361,8 @@ export class AuthUtils {
    */
   static isProfileComplete(user: User | null): boolean {
     if (!user) return false;
-    
-    const requiredFields = ['first_name', 'last_name', 'email'];
+
+    const requiredFields = ["first_name", "last_name", "email"];
     return requiredFields.every(field => user[field as keyof User]);
   }
 
@@ -289,22 +371,22 @@ export class AuthUtils {
    */
   static getProfileCompletionPercentage(user: User | null): number {
     if (!user) return 0;
-    
+
     const allFields = [
-      'first_name',
-      'last_name',
-      'email',
-      'phone_number',
-      'bio',
-      'location',
-      'profile_picture',
+      "first_name",
+      "last_name",
+      "email",
+      "phone_number",
+      "bio",
+      "location",
+      "profile_picture",
     ];
-    
+
     const completedFields = allFields.filter(field => {
       const value = user[field as keyof User];
-      return value && value !== '';
+      return value && value !== "";
     });
-    
+
     return Math.round((completedFields.length / allFields.length) * 100);
   }
 }
